@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Whole:jar">
+    <output-path>$USER_HOME$/Desktop/test/plugins</output-path>
+    <root id="archive" name="Whole.jar">
+      <element id="module-output" name="Whole" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/atteo/classindex/classindex/3.11/classindex-3.11.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/google/code/gson/gson/2.8.9/gson-2.8.9.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

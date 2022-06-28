@@ -1,0 +1,5 @@
+name: Whole
+author: Lickem
+version: 1.0.0
+main: tk.lickem.whole.Whole
+description: "Just a whole plugin"

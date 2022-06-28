@@ -1,0 +1,10 @@
+tk.lickem.whole.data.backpack.BackPackManager
+tk.lickem.whole.data.enchantments.ItemEnchanter
+tk.lickem.whole.data.enchantments.data.arrowtrails.ArrowTrail
+tk.lickem.whole.data.enchantments.data.lumberjack.Lumberjack
+tk.lickem.whole.data.enchantments.data.messager.Messager
+tk.lickem.whole.data.enchantments.data.paintball.Paintball
+tk.lickem.whole.data.enchantments.data.regenerate.Regenerate
+tk.lickem.whole.data.gems.GemManager
+tk.lickem.whole.listener.ChatEvent
+tk.lickem.whole.manager.PlayerDataManager
