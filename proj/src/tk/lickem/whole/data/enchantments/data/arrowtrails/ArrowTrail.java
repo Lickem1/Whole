@@ -12,13 +12,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitTask;
 import tk.lickem.whole.Whole;
-import tk.lickem.whole.data.enchantments.IEnchant;
-import tk.lickem.whole.manager.dynamic.anno.Init;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import tk.lickem.whole.data.enchantments.AbstractEnchant;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 @Init
-public class ArrowTrail extends IEnchant {
+public class ArrowTrail extends AbstractEnchant {
 
     public ArrowTrail() {
         super(103);
@@ -90,13 +88,14 @@ public class ArrowTrail extends IEnchant {
                 if (type == EntityType.ARROW) {
                     e.getEntity().setMetadata("arrowTrail", new FixedMetadataValue(Whole.getWhole(), true));
 
-                    AtomicInteger time = new AtomicInteger();
                     trailTask = Bukkit.getScheduler().runTaskTimerAsynchronously(Whole.getWhole(), () -> {
                         Location loc = e.getEntity().getLocation();
                         int unit = 360 /5;
-                        time.getAndIncrement();
+                        int time = 0;
+
+                        time++;
                         for(int i = 0; i < 5; i++) {
-                            int degrees = ( ((i*unit) + (time.get() *32)/5) % 360);
+                            int degrees = ( ((i*unit) + (time *32)/5) % 360);
 
                             float x = (float) loc.getX();
                             float y = (float) (loc.getY()+.7);

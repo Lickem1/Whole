@@ -4,27 +4,29 @@ package tk.lickem.whole.manager;
 import lombok.Getter;
 import org.atteo.classindex.ClassIndex;
 import tk.lickem.whole.Whole;
-import tk.lickem.whole.data.enchantments.IEnchant;
-import tk.lickem.whole.manager.dynamic.anno.Init;
-import tk.lickem.whole.manager.dynamic.anno.PostInit;
-import tk.lickem.whole.manager.dynamic.anno.PreInit;
+import tk.lickem.whole.data.enchantments.AbstractEnchant;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
+import tk.lickem.whole.manager.dynamic.annotations.PostInit;
+import tk.lickem.whole.manager.dynamic.annotations.PreInit;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class DynamicManger {
 
-    @Getter private final LinkedList<IEnchant> enchants = new LinkedList<>();
-    @Getter private static final HashMap<Class<?>, Object> reflectionClasses = new HashMap<>();
+    @Getter private final List<AbstractEnchant> enchants = new LinkedList<>();
+    private static final Map<Class<?>, Object> reflectionClasses = new HashMap<>();
 
     public static void init() {
-        ClassIndex.getAnnotated(PreInit.class, Whole.class.getClassLoader()).forEach(DynamicManger::newC);
-        ClassIndex.getAnnotated(Init.class, Whole.class.getClassLoader()).forEach(DynamicManger::newC);
-        ClassIndex.getAnnotated(PostInit.class, Whole.class.getClassLoader()).forEach(DynamicManger::newC);
+        ClassIndex.getAnnotated(PreInit.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
+        ClassIndex.getAnnotated(Init.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
+        ClassIndex.getAnnotated(PostInit.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
     }
 
-    private static <T> T newC(Class clazz) {
+    private static <T> T selfConstruct(Class clazz) {
         try {
             Constructor c = clazz.getDeclaredConstructor();
             c.setAccessible(true);

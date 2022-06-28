@@ -7,7 +7,7 @@ import java.util.Random;
 
 @Getter
 @AllArgsConstructor
-public enum IMessages {
+public enum Messages {
 
     DANK("This is such a dank message!"),
     WOAH("Woah this is so cool!"),

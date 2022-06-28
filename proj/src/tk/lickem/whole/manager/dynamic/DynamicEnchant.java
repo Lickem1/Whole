@@ -3,9 +3,9 @@ package tk.lickem.whole.manager.dynamic;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.scheduler.BukkitRunnable;
 import tk.lickem.whole.Whole;
-import tk.lickem.whole.data.enchantments.IEnchant;
+import tk.lickem.whole.data.enchantments.AbstractEnchant;
 import tk.lickem.whole.manager.DynamicManger;
-import tk.lickem.whole.manager.dynamic.anno.PostInit;
+import tk.lickem.whole.manager.dynamic.annotations.PostInit;
 
 import java.lang.reflect.Field;
 
@@ -42,7 +42,7 @@ public class DynamicEnchant extends BukkitRunnable {
     @Override
     public void run() {
 
-        for (IEnchant e : dm.getEnchants()) {
+        for (AbstractEnchant e : dm.getEnchants()) {
             if(e.isTickable()) e.doTick();
         }
     }

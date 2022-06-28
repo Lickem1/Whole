@@ -9,14 +9,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.Whole;
-import tk.lickem.whole.data.enchantments.IEnchant;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.data.enchantments.AbstractEnchant;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
 @Init
-public class Regenerate extends IEnchant {
+public class Regenerate extends AbstractEnchant {
 
     // The block function doesn't like to be called async :(
 

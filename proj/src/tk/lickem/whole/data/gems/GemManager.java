@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.player.PlayerData;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 import tk.lickem.whole.util.itembuilder.ItemBuilder;
 
 @Init
@@ -25,7 +25,7 @@ public class GemManager extends DynamicListener {
         item.addEnchant(Enchantment.MENDING, 1);
 
         NBTTagCompound data = new NBTTagCompound();
-        data.setString("gem_data", Whole.getGson().toJson(gem));
+        data.setString("gem_data", Whole.getWhole().getGson().toJson(gem));
         item.addTag(data);
         item.addFlag(ItemFlag.HIDE_ENCHANTS);
 
@@ -44,7 +44,7 @@ public class GemManager extends DynamicListener {
     public Gem gemData(ItemStack item) {
         if (isGem(item)) {
             net.minecraft.server.v1_12_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
-            Gem gem = Whole.getGson().fromJson(stack.getTag().getString("gem_data"), Gem.class);
+            Gem gem = Whole.getWhole().getGson().fromJson(stack.getTag().getString("gem_data"), Gem.class);
 
             return gem;
         } else return null;

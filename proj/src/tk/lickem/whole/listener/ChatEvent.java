@@ -7,14 +7,14 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.data.backpack.BackPack;
 import tk.lickem.whole.data.backpack.BackPackManager;
-import tk.lickem.whole.data.backpack.IBackPackSize;
+import tk.lickem.whole.data.backpack.BackPackSize;
 import tk.lickem.whole.data.enchantments.ItemEnchanter;
 import tk.lickem.whole.data.gems.GemManager;
 import tk.lickem.whole.data.gems.Gem;
 import tk.lickem.whole.data.player.PlayerData;
 import tk.lickem.whole.manager.DynamicManger;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 @Init
 public class ChatEvent extends DynamicListener {
@@ -71,7 +71,7 @@ public class ChatEvent extends DynamicListener {
                     p.openInventory(d.getBackPack().getInv());
                     return;
                 }
-                BackPack backPack = new BackPack(IBackPackSize.THIRTY_SIX);
+                BackPack backPack = new BackPack(BackPackSize.THIRTY_SIX);
                 bpm.createBackPack(p, backPack);
                 break;
 

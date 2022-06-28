@@ -14,7 +14,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.data.player.PlayerData;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 import tk.lickem.whole.util.itembuilder.ItemBuilder;
 
 @Init

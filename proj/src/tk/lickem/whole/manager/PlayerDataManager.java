@@ -8,8 +8,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.player.PlayerData;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
+import java.util.Map;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
@@ -20,7 +21,7 @@ public class PlayerDataManager extends DynamicListener {
         Bukkit.getServer().getPluginManager().registerEvents(this, Whole.getWhole());
     }
 
-    private final WeakHashMap<UUID, PlayerData> playerMaps = new WeakHashMap<>();
+    private final Map<UUID, PlayerData> playerMaps = new WeakHashMap<>();
 
     public PlayerData getProfile(UUID uuid) {
         return playerMaps.get(uuid);

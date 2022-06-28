@@ -16,14 +16,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.util.Vector;
 import tk.lickem.whole.Whole;
-import tk.lickem.whole.data.enchantments.IEnchant;
+import tk.lickem.whole.data.enchantments.AbstractEnchant;
 import tk.lickem.whole.data.player.PlayerData;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 import java.util.*;
 
 @Init
-public class Paintball extends IEnchant {
+public class Paintball extends AbstractEnchant {
 
     public Paintball() {
         super(104);

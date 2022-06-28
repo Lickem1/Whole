@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum IBackPackSize {
+public enum BackPackSize {
 
     NINE(9),
-    EIGHT_TEEN(18),
+    EIGHTTEEN(18),
     TWENTY_SEVEN(27),
     THIRTY_SIX(36);
 

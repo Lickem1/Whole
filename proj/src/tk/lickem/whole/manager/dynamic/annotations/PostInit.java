@@ -1,4 +1,4 @@
-package tk.lickem.whole.manager.dynamic.anno;
+package tk.lickem.whole.manager.dynamic.annotations;
 
 import org.atteo.classindex.IndexAnnotated;
 

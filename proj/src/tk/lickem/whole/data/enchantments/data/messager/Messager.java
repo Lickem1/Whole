@@ -7,13 +7,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import tk.lickem.whole.data.enchantments.IEnchant;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.data.enchantments.AbstractEnchant;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 import java.util.Random;
 
 @Init
-public class Messager extends IEnchant {
+public class Messager extends AbstractEnchant {
 
     public Messager() {
         super(100);
@@ -84,7 +84,7 @@ public class Messager extends IEnchant {
         if (item.containsEnchantment(this)) {
             double random = new Random().nextDouble() * 100.0D;
             if(random < chance(item.getEnchantmentLevel(this))) {
-                p.sendMessage(IMessages.random());
+                p.sendMessage(Messages.random());
             }
         }
     }

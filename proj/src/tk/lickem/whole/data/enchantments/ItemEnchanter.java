@@ -5,10 +5,11 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import tk.lickem.whole.manager.dynamic.anno.Init;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 import tk.lickem.whole.util.RomanNum;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Init
 public class ItemEnchanter {
@@ -48,13 +49,13 @@ public class ItemEnchanter {
     }
 
     private void buildLore(ItemStack stack, Player p) {
-        ArrayList<String> lore = new ArrayList<>();
+        List<String> lore = new ArrayList<>();
         ItemMeta meta = stack.getItemMeta();
 
         for(var e : stack.getEnchantments().entrySet()) {
-            if(e.getKey() instanceof IEnchant) {
+            if(e.getKey() instanceof AbstractEnchant) {
                 String romanNum = RomanNum.convertTo(e.getValue());
-                String a = String.format(((IEnchant) e.getKey()).getLore(), romanNum);
+                String a = String.format(((AbstractEnchant) e.getKey()).getLore(), romanNum);
                 lore.add(a);
             }
         }
