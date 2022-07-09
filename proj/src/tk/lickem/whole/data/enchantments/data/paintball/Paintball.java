@@ -1,5 +1,6 @@
 package tk.lickem.whole.data.enchantments.data.paintball;
 
+import net.minecraft.server.v1_12_R1.EnumDirection;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -19,6 +20,7 @@ import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.enchantments.AbstractEnchant;
 import tk.lickem.whole.data.player.PlayerData;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
+import tk.lickem.whole.util.direction.FixedDirection;
 
 import java.util.*;
 
@@ -112,6 +114,12 @@ public class Paintball extends AbstractEnchant {
 
         if(stack.containsEnchantment(this)) {
             e.setCancelled(true);
+
+            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BELL, 1f, 1f);
+
+            Location newLocation = p.getEyeLocation();
+
+            p.playEffect(newLocation, Effect.EXPLOSION_LARGE, 1);
 
             List<Snowball> balls = new ArrayList<>();
             Vector[] locations = {

@@ -3,9 +3,11 @@ package tk.lickem.whole.manager;
 
 import lombok.Getter;
 import org.atteo.classindex.ClassIndex;
+import tk.lickem.CodecSpigot;
 import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.enchantments.AbstractEnchant;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
+import tk.lickem.whole.manager.dynamic.annotations.Packet;
 import tk.lickem.whole.manager.dynamic.annotations.PostInit;
 import tk.lickem.whole.manager.dynamic.annotations.PreInit;
 
@@ -23,6 +25,7 @@ public class DynamicManger {
     public static void init() {
         ClassIndex.getAnnotated(PreInit.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
         ClassIndex.getAnnotated(Init.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
+        ClassIndex.getAnnotated(Packet.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
         ClassIndex.getAnnotated(PostInit.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
     }
 

@@ -56,7 +56,7 @@ public class ItemBuilder implements Listener {
 
     public ItemBuilder setSkullOwner(Player p) {
         SkullMeta a = (SkullMeta) itemStack.getItemMeta();
-        a.setOwner(p.getName());
+        a.setOwningPlayer(p);
         itemStack.setItemMeta(a);
         return this;
     }
