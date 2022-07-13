@@ -9,14 +9,14 @@ import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_12_R1.CraftWorld;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+import tk.lickem.whole.manager.DynamicManger;
+import tk.lickem.whole.manager.HologramManager;
 
 import java.util.*;
 
 @Getter
 public class Hologram {
     // Find a way to add new lines to holograms
-    @Getter
-    private static final List<Hologram> holograms = new LinkedList<>();
 
     private final UUID hologramID = UUID.randomUUID();
     private final String name;
@@ -35,7 +35,17 @@ public class Hologram {
         this.armorStands = new HashMap<>();
         this.name = name;
         this.location = location;
-        holograms.add(this);
+        make();
+        DynamicManger.get(HologramManager.class).getHolograms().add(this);
+    }
+
+    public Hologram(String name, Location location, String... lines) {
+        this.armorStands = new HashMap<>();
+        this.name = name;
+        this.location = location;
+        this.lines.addAll(Arrays.asList(lines));
+        make();
+        DynamicManger.get(HologramManager.class).getHolograms().add(this);
     }
 
 
@@ -104,7 +114,7 @@ public class Hologram {
         viewers.add(player.getUniqueId());
     }
 
-    public void make() {
+    private void make() {
 
         int standID = armorStands.size();
 
@@ -183,19 +193,5 @@ public class Hologram {
 
     public boolean isEventable() {
         return (hologramEvent != null);
-    }
-
-    public static Hologram getHologram(String id) {
-        for (Hologram hologram : holograms) if (hologram.getName().equalsIgnoreCase(id)) return hologram;
-        return null;
-    }
-
-    public static Hologram isHologramEntity(int id) {
-        for (Hologram hologram : holograms) {
-            for(EntityArmorStand armorStand : hologram.getArmorStands().values()) {
-                if(armorStand.getId() == id) return hologram;
-            }
-        }
-        return null;
     }
 }
