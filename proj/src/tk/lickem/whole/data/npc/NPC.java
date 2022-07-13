@@ -27,12 +27,13 @@ public class NPC {
     private final Location location;
     private final EntityPlayer NPC;
     private final GameProfile npcProfile;
-    @Setter private NPCEvent npcEvent;
+    @Setter
+    private NPCEvent npcEvent;
     private final List<Player> viewers = new ArrayList<>();
 
     public NPC(Location location) {
         MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
-        WorldServer nmsWorld = ((CraftWorld)Bukkit.getWorld("world")).getHandle();
+        WorldServer nmsWorld = ((CraftWorld) location.getWorld()).getHandle();
 
         this.location = location;
         this.npcProfile = new GameProfile(UUID.randomUUID(), "$NPC_r" + new Random().nextInt(1000));
@@ -51,29 +52,23 @@ public class NPC {
     }
 
     public void equip(EnumItemSlot itemSlot, ItemStack stack) {
-        for(Player player : viewers) {
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityEquipment(NPC.getId(), itemSlot, CraftItemStack.asNMSCopy(stack)));
-        }
+        sendPacket(viewers, new PacketPlayOutEntityEquipment(NPC.getId(), itemSlot, CraftItemStack.asNMSCopy(stack)));
     }
 
     public void playAnimation(EnumAnimation animation) {
-        PacketPlayOutAnimation packetPlayOutAnimation = new PacketPlayOutAnimation(NPC, animation.getId());
-        viewers.forEach(p -> ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packetPlayOutAnimation));
+        sendPacket(viewers, new PacketPlayOutAnimation(NPC, animation.getId()));
     }
 
     public void update() {
-        for(Player player : viewers) {
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, NPC));
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityDestroy(NPC.getId()));
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, NPC));
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutNamedEntitySpawn(NPC));
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutEntityHeadRotation(NPC, (byte) (NPC.yaw * 256 / 360)));
-        }
+        sendPacket(viewers,
+                new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, NPC),
+                new PacketPlayOutEntityDestroy(NPC.getId()),
+                new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, NPC),
+                new PacketPlayOutNamedEntitySpawn(NPC),
+                new PacketPlayOutEntityHeadRotation(NPC, (byte) (NPC.yaw * 256 / 360))
+        );
         Bukkit.getServer().getScheduler().runTaskLater(Whole.getWhole(), () -> {
-            for(Player player : viewers) {
-                ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, NPC));
-            }
-
+            sendPacket(viewers, new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, NPC));
         }, 3);
     }
 
@@ -88,16 +83,26 @@ public class NPC {
         List<String> playerToAdd = new ArrayList<>();
         playerToAdd.add(NPC.getName());
 
-        for(Player player : viewers) {
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutScoreboardTeam(team, 1));
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutScoreboardTeam(team, 0));
-            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(new PacketPlayOutScoreboardTeam(team, playerToAdd, 3));
-        }
+        sendPacket(viewers,
+                new PacketPlayOutScoreboardTeam(team, 1),
+                new PacketPlayOutScoreboardTeam(team, 0),
+                new PacketPlayOutScoreboardTeam(team, playerToAdd, 3)
+        );
     }
 
     public void changeSkin(String value, String signature) {
         npcProfile.getProperties().put("textures", new Property("textures", value, signature));
         update();
+    }
+
+    public void sendPacket(List<Player> player, Packet<?> packet) {
+        for (Player p : player) ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+    }
+
+    public void sendPacket(List<Player> player, Packet<?>... packet) {
+        for (Packet<?> pack : packet) {
+            for (Player p : player) ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pack);
+        }
     }
 
     @Getter

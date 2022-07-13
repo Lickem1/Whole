@@ -119,7 +119,7 @@ public class Paintball extends AbstractEnchant {
 
             Location newLocation = p.getEyeLocation();
 
-            p.playEffect(newLocation, Effect.EXPLOSION_LARGE, 1);
+            p.playEffect(newLocation, Effect.HAPPY_VILLAGER, 1);
 
             List<Snowball> balls = new ArrayList<>();
             Vector[] locations = {
