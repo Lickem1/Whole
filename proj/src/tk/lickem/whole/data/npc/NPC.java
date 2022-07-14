@@ -29,7 +29,7 @@ public class NPC {
     private final GameProfile npcProfile;
     @Setter
     private NPCEvent npcEvent;
-    private final List<Player> viewers = new ArrayList<>();
+    private final List<UUID> viewers = new ArrayList<>();
 
     public NPC(Location location) {
         MinecraftServer nmsServer = ((CraftServer) Bukkit.getServer()).getServer();
@@ -52,28 +52,26 @@ public class NPC {
     }
 
     public void equip(EnumItemSlot itemSlot, ItemStack stack) {
-        sendPacket(viewers, new PacketPlayOutEntityEquipment(NPC.getId(), itemSlot, CraftItemStack.asNMSCopy(stack)));
+        sendPacket(new PacketPlayOutEntityEquipment(NPC.getId(), itemSlot, CraftItemStack.asNMSCopy(stack)));
     }
 
     public void playAnimation(EnumAnimation animation) {
-        sendPacket(viewers, new PacketPlayOutAnimation(NPC, animation.getId()));
+        sendPacket(new PacketPlayOutAnimation(NPC, animation.getId()));
     }
 
     public void update() {
-        sendPacket(viewers,
+        sendPacket(
                 new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, NPC),
                 new PacketPlayOutEntityDestroy(NPC.getId()),
                 new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, NPC),
                 new PacketPlayOutNamedEntitySpawn(NPC),
                 new PacketPlayOutEntityHeadRotation(NPC, (byte) (NPC.yaw * 256 / 360))
         );
-        Bukkit.getServer().getScheduler().runTaskLater(Whole.getWhole(), () -> {
-            sendPacket(viewers, new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, NPC));
-        }, 3);
+        Bukkit.getServer().getScheduler().runTaskLater(Whole.getWhole(), () -> sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.REMOVE_PLAYER, NPC)), 3);
     }
 
     public void addViewer(Player player) {
-        viewers.add(player);
+        viewers.add(player.getUniqueId());
     }
 
     public void setNamePlateVisibility(ScoreboardTeamBase.EnumNameTagVisibility enumNameTagVisibility) {
@@ -83,7 +81,7 @@ public class NPC {
         List<String> playerToAdd = new ArrayList<>();
         playerToAdd.add(NPC.getName());
 
-        sendPacket(viewers,
+        sendPacket(
                 new PacketPlayOutScoreboardTeam(team, 1),
                 new PacketPlayOutScoreboardTeam(team, 0),
                 new PacketPlayOutScoreboardTeam(team, playerToAdd, 3)
@@ -95,13 +93,21 @@ public class NPC {
         update();
     }
 
-    public void sendPacket(List<Player> player, Packet<?> packet) {
-        for (Player p : player) ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+    public void sendPacket(Packet<?> packet) {
+        viewers.removeIf(v -> Bukkit.getServer().getPlayer(v) == null);
+        for (UUID uuid : viewers) {
+            Player p = Bukkit.getServer().getPlayer(uuid);
+            ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
+        }
     }
 
-    public void sendPacket(List<Player> player, Packet<?>... packet) {
+    public void sendPacket(Packet<?>... packet) {
+        viewers.removeIf(v -> Bukkit.getServer().getPlayer(v) == null);
         for (Packet<?> pack : packet) {
-            for (Player p : player) ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pack);
+            for (UUID uuid : viewers) {
+                Player p = Bukkit.getServer().getPlayer(uuid);
+                ((CraftPlayer) p).getHandle().playerConnection.sendPacket(pack);
+            }
         }
     }
 
