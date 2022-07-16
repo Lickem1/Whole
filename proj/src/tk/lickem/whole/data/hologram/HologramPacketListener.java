@@ -1,33 +1,29 @@
 package tk.lickem.whole.data.hologram;
 
-import lombok.SneakyThrows;
 import net.minecraft.server.v1_12_R1.*;
+import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.entity.Player;
+import tk.lickem.whole.data.packet.PacketEvent;
+import tk.lickem.whole.data.packet.PacketState;
 import tk.lickem.whole.manager.DynamicManger;
 import tk.lickem.whole.manager.HologramManager;
-import tk.lickem.whole.manager.dynamic.DynamicPacketListener;
+import tk.lickem.whole.data.packet.ClassType;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
-@tk.lickem.whole.manager.dynamic.annotations.Packet
-public class HologramPacketListener extends DynamicPacketListener {
+@Init(classType = ClassType.PACKET_LISTENER)
+public class HologramPacketListener {
 
-    @Override
-    @SneakyThrows
-    public void handleReceivedPacket(PlayerConnection playerConnection, Packet packet) {
-        if(packet instanceof PacketPlayInUseEntity) {
-            PacketPlayInUseEntity packetPlayInUseEntity = (PacketPlayInUseEntity) packet;
-            int id = packetPlayInUseEntity.getEntityId();
-            HologramManager hm = DynamicManger.get(HologramManager.class);
-            Hologram hologram = hm.isHologramEntity(id);
+    @PacketEvent(packet = PacketPlayInUseEntity.class)
+    public void listen(Player player, PacketState state, PacketPlayInUseEntity packet) {
+        PlayerConnection playerConnection = ((CraftPlayer) player).getHandle().playerConnection;
+        int id = packet.getEntityId();
+        HologramManager hm = DynamicManger.get(HologramManager.class);
+        Hologram hologram = hm.isHologramEntity(id);
 
-            if(hologram != null) {
-                if(hologram.isEventable()) {
-                    hologram.getHologramEvent().e(playerConnection.getPlayer().getPlayer());
-                }
+        if(hologram != null) {
+            if(hologram.isEventable()) {
+                hologram.getHologramEvent().e(playerConnection.getPlayer().getPlayer());
             }
         }
-
-    }
-
-    @Override
-    public void handleSentPacket(PlayerConnection playerConnection, Packet packet) {
     }
 }

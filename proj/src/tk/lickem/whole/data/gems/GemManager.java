@@ -12,11 +12,12 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.player.PlayerData;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 import tk.lickem.whole.util.itembuilder.ItemBuilder;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class GemManager extends DynamicListener {
 
     public boolean buildGem(Player p, Gem gem) {

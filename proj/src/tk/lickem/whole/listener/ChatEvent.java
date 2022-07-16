@@ -2,12 +2,9 @@ package tk.lickem.whole.listener;
 
 import lombok.SneakyThrows;
 import net.minecraft.server.v1_12_R1.*;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
@@ -22,11 +19,12 @@ import tk.lickem.whole.data.hologram.Hologram;
 import tk.lickem.whole.data.npc.NPC;
 import tk.lickem.whole.data.player.PlayerData;
 import tk.lickem.whole.manager.DynamicManger;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 import tk.lickem.whole.util.itembuilder.ItemBuilder;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class ChatEvent extends DynamicListener {
 
     @EventHandler
@@ -110,7 +108,7 @@ public class ChatEvent extends DynamicListener {
                 npc.setNamePlateVisibility(ScoreboardTeamBase.EnumNameTagVisibility.NEVER);
                 npc.setNpcEvent((n, p1) -> {
                     p1.sendMessage("Back off nerd >:(");
-                    n.playAnimation(NPC.EnumAnimation.SWING_HAND);
+                    n.playAnimation(NPC.EnumAnimation.DAMAGE);
 
                     // this is so cool wtf
                     EntityPlayer entityPlayer = ((CraftPlayer) p1).getHandle();
@@ -119,43 +117,8 @@ public class ChatEvent extends DynamicListener {
                 });
                 break;
 
-            //case "hologram":
-//
-            //    HologramManager hm = DynamicManger.get(HologramManager.class);
-            //    Hologram hologram;
-            //    if (hm.getHologram("test") != null) hologram = hm.getHologram("test");
-            //    else {
-            //        hologram = new Hologram(UUID.randomUUID() + "", p.getLocation());
-//
-            //        hologram.addLine("&aLine 1!",
-            //                "&aLine 2!",
-            //                "&aLine 3!",
-            //                "&4[!] &7Click to redeem &b64 diamonds! &4[!]");
-//
-            //        hologram.setHologramEvent((player -> {
-            //            player.getInventory().addItem(new ItemBuilder(Material.DIAMOND, 64, 0).build());
-            //            player.sendMessage("You have redeemed 64 diamonds!");
-            //            hologram.setLine(5, "&4[!] &bDiamonds redeemed! &4[!]");
-            //        }));
-            //    }
-            //    if(!hologram.isVisibleTo(p)) hologram.showToPlayer(p);
-            //
-            //    break;
-
             default:
                 e.setCancelled(false);
         }
-    }
-
-    private ArmorStand newArmorStand(Location location) {
-        ArmorStand stand = (ArmorStand) location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
-        stand.setBasePlate(false);
-        stand.setArms(true);
-        stand.setInvulnerable(true);
-        stand.setCanPickupItems(false);
-        stand.setGravity(false);
-        stand.setVisible(false);
-        stand.setSmall(true);
-        return stand;
     }
 }

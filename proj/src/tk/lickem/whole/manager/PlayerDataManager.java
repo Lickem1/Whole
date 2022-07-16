@@ -6,7 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import tk.lickem.whole.Whole;
+import tk.lickem.whole.data.packet.PacketInjector;
 import tk.lickem.whole.data.player.PlayerData;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 
@@ -14,7 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class PlayerDataManager extends DynamicListener {
 
     public PlayerDataManager() {
@@ -52,10 +54,15 @@ public class PlayerDataManager extends DynamicListener {
     public void join(PlayerJoinEvent e) {
         createData(e.getPlayer());
         getProfile(e.getPlayer()).setPlayer(e.getPlayer());
+
+        DynamicManger.get(PacketInjector.class).injectHandler(e.getPlayer()); // packet injector
     }
 
     @EventHandler
     public void leave(PlayerQuitEvent e) {
         delete(e.getPlayer());
+
+        DynamicManger.get(PacketInjector.class).ejectHandler(e.getPlayer()); // packet injector
+
     }
 }

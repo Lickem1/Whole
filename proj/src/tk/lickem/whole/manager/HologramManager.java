@@ -5,13 +5,14 @@ import net.minecraft.server.v1_12_R1.EntityArmorStand;
 import org.bukkit.scheduler.BukkitRunnable;
 import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.hologram.Hologram;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-@Init
+@Init(classType = {ClassType.CONSTRUCT})
 public class HologramManager extends BukkitRunnable {
 
     @Getter

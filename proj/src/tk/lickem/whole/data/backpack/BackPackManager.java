@@ -13,11 +13,12 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.data.player.PlayerData;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 import tk.lickem.whole.util.itembuilder.ItemBuilder;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class BackPackManager extends DynamicListener {
 
     public void createBackPack(Player p, BackPack backPack) {

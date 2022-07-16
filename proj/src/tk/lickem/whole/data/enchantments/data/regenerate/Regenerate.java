@@ -10,12 +10,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.enchantments.AbstractEnchant;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 import java.util.Iterator;
 import java.util.LinkedList;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class Regenerate extends AbstractEnchant {
 
     // The block function doesn't like to be called async :(

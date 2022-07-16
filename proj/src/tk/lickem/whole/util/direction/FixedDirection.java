@@ -1,10 +1,13 @@
 package tk.lickem.whole.util.direction;
 
 import org.bukkit.entity.Player;
+import tk.lickem.whole.data.packet.ClassType;
+import tk.lickem.whole.manager.dynamic.annotations.Init;
 
+@Init(classType = ClassType.CONSTRUCT)
 public class FixedDirection {
 
-    public static Direction getFixedDirection(Player player) {
+    public Direction getFixedDirection(Player player) {
         double rotation = (player.getEyeLocation().getYaw() - 90) % 360;
         if (rotation < 0) {
             rotation += 360.0;

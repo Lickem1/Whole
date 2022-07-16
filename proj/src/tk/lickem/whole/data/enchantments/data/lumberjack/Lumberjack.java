@@ -12,12 +12,13 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 import tk.lickem.whole.data.enchantments.AbstractEnchant;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class Lumberjack extends AbstractEnchant {
 
     public Lumberjack() {

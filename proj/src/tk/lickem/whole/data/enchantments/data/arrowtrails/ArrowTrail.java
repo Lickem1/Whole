@@ -13,9 +13,10 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitTask;
 import tk.lickem.whole.Whole;
 import tk.lickem.whole.data.enchantments.AbstractEnchant;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class ArrowTrail extends AbstractEnchant {
 
     public ArrowTrail() {

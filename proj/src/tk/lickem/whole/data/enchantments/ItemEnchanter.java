@@ -5,13 +5,14 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.annotations.Init;
 import tk.lickem.whole.util.RomanNum;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Init
+@Init(classType = ClassType.CONSTRUCT)
 public class ItemEnchanter {
 
     public void viewEnchants(ItemStack stack, Player p) {
