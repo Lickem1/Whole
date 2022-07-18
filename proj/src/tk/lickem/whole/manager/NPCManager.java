@@ -16,10 +16,10 @@ import java.util.List;
 public class NPCManager {
 
     @Getter
-    private List<NPC> npcs = new LinkedList<>();
+    private final List<NPC> npcList = new LinkedList<>();
 
     public NPC getNPC(EntityPlayer entityPlayer) {
-        for(tk.lickem.whole.data.npc.NPC npcs : npcs) {
+        for(tk.lickem.whole.data.npc.NPC npcs : npcList) {
             if(npcs.getNPC().getId() == entityPlayer.getId()) {
                 return npcs;
             }
@@ -28,7 +28,7 @@ public class NPCManager {
     }
 
     public NPC getNPC(int id) {
-        for(tk.lickem.whole.data.npc.NPC npcs : npcs) {
+        for(tk.lickem.whole.data.npc.NPC npcs : npcList) {
             if(npcs.getNPC().getId() == id) {
                 return npcs;
             }

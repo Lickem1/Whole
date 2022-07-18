@@ -32,7 +32,7 @@ public class ItemBuilder implements Listener {
     @Getter
     @Setter
     private ItemEvent itemEvent;
-    private HashSet<NBTTagCompound> tags = new HashSet<>();
+    private final HashSet<NBTTagCompound> tags = new HashSet<>();
 
     public ItemBuilder(Material material, int amount, int id) {
         this.itemStack = new ItemStack(material, amount, (short) id);
@@ -104,7 +104,7 @@ public class ItemBuilder implements Listener {
             }
         }
         itemStack = CraftItemStack.asBukkitCopy(itemNms);
-        Bukkit.getServer().getPluginManager().registerEvents(this, Whole.getWhole());
+        Bukkit.getServer().getPluginManager().registerEvents(this, Whole.getWhole()); // plugin instance
         return itemStack;
     }
 

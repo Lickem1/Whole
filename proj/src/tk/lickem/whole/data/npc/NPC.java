@@ -27,8 +27,7 @@ public class NPC {
     private final Location location;
     private final EntityPlayer NPC;
     private final GameProfile npcProfile;
-    @Setter
-    private NPCEvent npcEvent;
+    @Setter private NPCEvent npcEvent;
     private final List<UUID> viewers = new ArrayList<>();
 
     public NPC(Location location) {
@@ -38,7 +37,7 @@ public class NPC {
         this.location = location;
         this.npcProfile = new GameProfile(UUID.randomUUID(), "$NPC_r" + new Random().nextInt(1000));
         this.NPC = new EntityPlayer(nmsServer, nmsWorld, this.npcProfile, new PlayerInteractManager(nmsWorld));
-        DynamicManger.get(NPCManager.class).getNpcs().add(this);
+        DynamicManger.get(NPCManager.class).getNpcList().add(this);
     }
 
     public void spawn() {
