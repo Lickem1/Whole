@@ -18,6 +18,7 @@ import tk.lickem.whole.data.gems.Gem;
 import tk.lickem.whole.data.hologram.Hologram;
 import tk.lickem.whole.data.npc.NPC;
 import tk.lickem.whole.data.player.PlayerData;
+import tk.lickem.whole.data.tablist.Tablist;
 import tk.lickem.whole.manager.DynamicManger;
 import tk.lickem.whole.data.packet.ClassType;
 import tk.lickem.whole.manager.dynamic.DynamicListener;
@@ -86,6 +87,10 @@ public class ChatEvent extends DynamicListener {
             case "test":
                 GemManager gemManager = DynamicManger.get(GemManager.class);
                 gemManager.buildGem(p, new Gem(p.getName(), 150, System.currentTimeMillis()));
+                break;
+
+            case "tablist":
+                new Tablist(p);
                 break;
 
             case "npc":

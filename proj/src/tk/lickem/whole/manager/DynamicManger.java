@@ -28,7 +28,8 @@ public class DynamicManger {
         ClassIndex.getAnnotated(PreInit.class, Whole.class.getClassLoader()).forEach(DynamicManger::selfConstruct);
 
         ClassIndex.getAnnotated(Init.class, Whole.class.getClassLoader()).forEach(clazz -> {
-            Class<?> newClass = Objects.requireNonNull(selfConstruct(clazz)).getClass();
+            Object classOb = selfConstruct(clazz);
+            Class<?> newClass = classOb.getClass();
             Init init = newClass.getAnnotation(Init.class);
 
             if(init != null) {
@@ -41,7 +42,7 @@ public class DynamicManger {
                             PacketEvent annotation = m.getAnnotation(PacketEvent.class);
                             if(annotation != null) {
                                 Class<?> reference = annotation.packet();
-                                PacketEventReference packetEventReference = new PacketEventReference(m, get(newClass), reference);
+                                PacketEventReference packetEventReference = new PacketEventReference(m, classOb, reference);
                                 add(reference, packetEventReference);
                             }
                         }
