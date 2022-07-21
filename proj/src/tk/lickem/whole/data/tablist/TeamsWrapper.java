@@ -82,7 +82,7 @@ public class TeamsWrapper {
     @AllArgsConstructor
     public enum Mode {
         CREATE(0),
-        REMOTE(1),
+        REMOVE(1),
         UPDATE(2),
         ADD_PLAYER(3),
         REMOVE_PLAYER(4);
