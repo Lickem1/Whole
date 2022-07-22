@@ -16,20 +16,21 @@ public class PacketHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object packet) throws Exception {
-        if(!handle(packet)) super.channelRead(ctx, packet);
+        if(!handle(packet, ctx)) super.channelRead(ctx, packet);
     }
 
     @Override
     public void write(ChannelHandlerContext ctx, Object packet, ChannelPromise promise) throws Exception {
-        if(!handle(packet)) super.write(ctx, packet, promise);
+        if(!handle(packet, ctx)) super.write(ctx, packet, promise);
     }
 
-    private boolean handle(Object packet) {
-        PacketState state = new PacketState();
+    private boolean handle(Object packet, ChannelHandlerContext ctx) {
+        PacketState state = new PacketState(ctx);
         if(state.isCancelled()) return false;
         List<PacketEventReference> list = DynamicManger.getPacketReference(packet.getClass());
         if(list == null) return false;
         for(PacketEventReference reference : list) {
+            if(state.isCancelled()) continue;
             reference.call(player, state, packet);
         }
 

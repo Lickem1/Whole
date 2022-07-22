@@ -42,7 +42,6 @@ public class ChatEvent extends DynamicListener {
         switch (e.getMessage().toLowerCase()) {
 
             case "messager":
-                e.setCancelled(true);
                 Enchantment messager = Enchantment.getByName("Messager");
 
                 if (ie.hasEnchant(messager, p.getInventory().getItemInMainHand())) {

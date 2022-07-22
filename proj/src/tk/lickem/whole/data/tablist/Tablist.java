@@ -43,7 +43,7 @@ public class Tablist {
         // just fix tablist slot formatting
 
         for(int i = 0; i<80;i++) {
-            setSlot(player, i, "§bSlot #" + i, "");
+            setSlot(player, i, "§bSlot #" + (i+1), "");
         }
     }
 
